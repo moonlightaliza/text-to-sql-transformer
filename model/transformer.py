@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from layers import EncoderLayer, DecoderLayer
+from model.layers import EncoderLayer, DecoderLayer
 from starter.embeddings import InputLayer, TokenEmbedding
 
 def make_pad_mask(ids, pad_id):

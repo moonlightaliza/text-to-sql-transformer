@@ -1,7 +1,7 @@
 import torch
 import os
 from starter.dataset import make_loader
-from model import transformer
+from model.transformer import Transformer
 import sentencepiece as spm
 from starter.tokenizer import read_pairs, PAD_ID, BOS_ID, EOS_ID
 

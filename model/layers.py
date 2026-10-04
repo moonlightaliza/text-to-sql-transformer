@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from attention import MultiHeadAttention
+from model.attention import MultiHeadAttention
 
 class PositionwiseFeedForward(nn.Module):
     # FFN(x) = max(0, xW1 + b1)W2 + b2.

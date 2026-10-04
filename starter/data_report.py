@@ -8,7 +8,7 @@ from starter.tokenizer import read_pairs
 
 out = Path("../results")
 out.mkdir(exist_ok=True)
-sp = spm.SentencePieceProcessor(model_file="sql_sp.model")
+sp = spm.SentencePieceProcessor(model_file="starter/sql_sp.model")
 
 cells = []
 for split in ["train", "dev", "test"]:

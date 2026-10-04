@@ -3,7 +3,7 @@ from starter.dataset import make_loader
 from starter.embeddings import TokenEmbedding, InputLayer
 from starter.tokenizer import PAD_ID
 
-sp = spm.SentencePieceProcessor(model_file="sql_sp.model")
+sp = spm.SentencePieceProcessor(model_file="stater/sql_sp.model")
 train_dl = make_loader("train_pairs.jsonl", sp, train=True)
 dev_dl = make_loader("dev_pairs.jsonl", sp, train=False)
 

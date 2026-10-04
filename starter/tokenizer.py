@@ -22,7 +22,7 @@ def train_tokenizer(train_path="train_pairs.jsonl", vocab_size=8000):
         user_defined_symbols=SPECIAL,  # never split <sep>, <c0>, ...
         pad_id=PAD_ID, unk_id=UNK_ID, bos_id=BOS_ID, eos_id=EOS_ID,
     )
-    return spm.SentencePieceProcessor(model_file="sql_sp.model")
+    return spm.SentencePieceProcessor(model_file="starter/sql_sp.model")
 
 if __name__ == "__main__":
     sp = train_tokenizer()
