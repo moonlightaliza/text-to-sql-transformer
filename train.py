@@ -3,7 +3,8 @@ import os
 from starter.dataset import make_loader
 from model import Transformer
 import sentencepiece as spm
-from starter.tokenizer import PAD_ID
+from starter.tokenizer import read_pairs, PAD_ID, BOS_ID, EOS_ID
+
 
 EPOCHS = 20
 BATCH_SIZE = 64
