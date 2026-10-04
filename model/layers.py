@@ -39,10 +39,10 @@ class EncoderLayer(nn.Module):
         v = self.W_v(x) # (B, L, d_model)
 
         mha_out = self.mha(q, k, v, src_mask) # (B, L, d_model)
-        mha_out = self.norm1(self.dropout(mha_out) + x) # (B, L, d_model)
+        mha_out = self.norm1(self.dropout1(mha_out) + x) # (B, L, d_model)
 
         ffn_out = self.ffn(mha_out) # (B, L, d_model)
-        ffn_out = self.norm2(self.dropout(ffn_out) + mha_out) # (B, L, d_model)
+        ffn_out = self.norm2(self.dropout2(ffn_out) + mha_out) # (B, L, d_model)
         
         return ffn_out
 
