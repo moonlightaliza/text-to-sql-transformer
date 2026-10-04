@@ -23,7 +23,7 @@ class EncoderLayer(nn.Module):
         self.W_k = nn.Linear(d_model, d_model)
         self.W_v = nn.Linear(d_model, d_model)
 
-        self.mha = MultiHeadAttention(d_model, h)
+        self.mha = MultiHeadAttention(d_model, h, dropout)
         self.dropout1 = nn.Dropout(dropout)
         self.norm1 = nn.LayerNorm(d_model)
 
@@ -38,7 +38,7 @@ class EncoderLayer(nn.Module):
         k = self.W_k(x) # (B, L, d_model)
         v = self.W_v(x) # (B, L, d_model)
 
-        mha_out = self.mha(q, k, v, mask) # (B, L, d_model)
+        mha_out = self.mha(q, k, v, src_mask) # (B, L, d_model)
         mha_out = self.norm1(self.dropout(mha_out) + x) # (B, L, d_model)
 
         ffn_out = self.ffn(mha_out) # (B, L, d_model)
