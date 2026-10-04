@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 from attention import MultiHeadAttention
 
@@ -49,7 +50,39 @@ class EncoderLayer(nn.Module):
 class DecoderLayer(nn.Module):
     # Masked self-attn -> add & norm -> cross-attn over encoder output -> add & norm -> FFN -> add & norm.
     def __init__(self, d_model, h, d_ff, dropout):
-        pass
+        super().__init__()
+        self.self_W_q = nn.Linear(d_model, d_model)
+        self.self_W_k = nn.Linear(d_model, d_model)
+        self.self_W_v = nn.Linear(d_model, d_model)
+
+        self.self_attention = MultiHeadAttention(d_model, h, dropout)
+        self.norm1 = nn.LayerNorm(d_model)
+
+        self.cross_W_q = nn.Linear(d_model, d_model)
+        self.cross_W_k = nn.Linear(d_model, d_model)
+        self.cross_W_v = nn.Linear(d_model, d_model)
+        self.cross_attention = MultiHeadAttention(d_model, h, dropout)
+        self.norm2 = nn.LayerNorm(d_model)
+
+        self.feed_forward = PositionwiseFeedForward(d_model, d_ff, dropout)
+        self.norm3 = nn.LayerNorm(d_model)
+
+        self.dropout = nn.Dropout(dropout)
+        
 
     def forward(self, x, memory, src_mask, tgt_mask):
-        pass
+        q = self.self_W_q(x) # (B, L, d_model)
+        k = self.self_W_k(x) # (B, L, d_model)
+        v = self.self_W_v(x)
+        self_attention_output = self.self_attention(q,k,v,tgt_mask)
+        x = self.norm1(x + self.dropout(self_attention_output))
+
+        q = self.cross_W_q(x) # (B, L, d_model)
+        k = self.cross_W_k(memory) # (B, L, d_model)
+        v = self.cross_W_v(memory)
+        cross_attention_output = self.cross_attention(q,k,v,src_mask)
+        x = self.norm2(x + self.dropout(cross_attention_output))
+
+        ffn_output = self.feed_forward(x)
+        x = self.norm3(x + self.dropout(ffn_output))
+        return x
