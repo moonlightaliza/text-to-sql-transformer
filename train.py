@@ -123,9 +123,9 @@ def main():
     torch.manual_seed(SEED)
     os.makedirs(CKPT_DIR, exist_ok=True)
 
-    sp = spm.SentencePieceProcessor(model_file="sql_sp.model")
-    train_dl = make_loader("train_pairs.jsonl", sp, train=True, batch_size=BATCH_SIZE)
-    dev_dl = make_loader("dev_pairs.jsonl", sp, train=False, batch_size=BATCH_S )
+    sp = spm.SentencePieceProcessor(model_file="starter/sql_sp.model")
+    train_dl = make_loader("starter/train_pairs.jsonl", sp, train=True, batch_size=BATCH_SIZE)
+    dev_dl = make_loader("starter/dev_pairs.jsonl", sp, train=False, batch_size=BATCH_SIZE)
 
     model = Transformer(vocab_size=sp.get_piece_size(), pad_id=PAD_ID, d_model=D_MODEL, h=8, n_layers=6, d_ff=2048, dropout=0.1).to(DEVICE)
 
