@@ -1,3 +1,6 @@
 venv/
 __pycache__/
-*.pyc
+*.pycWikiSQL
+*_pairs.jsonl
+spm_corpus.txt
+sql_sp.vocab
