@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
-from tokenizer import read_pairs, PAD_ID, BOS_ID, EOS_ID
+from starter.tokenizer import read_pairs, PAD_ID, BOS_ID, EOS_ID
 
 class SQLDataset(Dataset):
     """Each item: (source ids, target ids). Target = <s> ... </s>.

@@ -1,6 +1,6 @@
 import json
 import sentencepiece as spm
-from data_prep import MAX_COLS
+from starter.data_prep import MAX_COLS
 
 PAD_ID, UNK_ID, BOS_ID, EOS_ID = 0, 1, 2, 3
 SPECIAL = ["<sep>"] + [f"<c{i}>" for i in range(MAX_COLS)]

@@ -3,8 +3,8 @@ sys.path.insert(0, ".")
 from pathlib import Path
 import matplotlib.pyplot as plt
 import sentencepiece as spm
-from embeddings import PositionalEncoding
-from tokenizer import read_pairs
+from starter.embeddings import PositionalEncoding
+from starter.tokenizer import read_pairs
 
 out = Path("../results")
 out.mkdir(exist_ok=True)
