@@ -1,7 +1,7 @@
 import torch
 import os
 from starter.dataset import make_loader
-from model.transformer import Transformer
+from model.transformer import build_model
 import sentencepiece as spm
 from starter.tokenizer import read_pairs, PAD_ID, BOS_ID, EOS_ID
 
@@ -127,7 +127,7 @@ def main():
     train_dl = make_loader("starter/train_pairs.jsonl", sp, train=True, batch_size=BATCH_SIZE)
     dev_dl = make_loader("starter/dev_pairs.jsonl", sp, train=False, batch_size=BATCH_SIZE)
 
-    model = Transformer(vocab_size=sp.get_piece_size(), pad_id=PAD_ID, d_model=D_MODEL, h=8, n_layers=6, d_ff=2048, dropout=0.1).to(DEVICE)
+    model = build_model(sp).to(DEVICE)
 
     print(f"Device: {DEVICE}")
     print(f"Parameters: {model.count_parameters():,}")
