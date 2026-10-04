@@ -1,6 +1,10 @@
 venv/
+.venv/
 __pycache__/
-*.pycWikiSQL
+*.pyc
+WikiSQL
 *_pairs.jsonl
 spm_corpus.txt
 sql_sp.vocab
+checkpoints/*.pt
+!checkpoints/best_weights.pt

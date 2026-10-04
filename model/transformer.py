@@ -83,12 +83,8 @@ class Transformer(nn.Module):
         
 
     def count_parameters(self):
-        return sum(
-        p.numel()
-        for p in self.parameters()
-        if p.requires_grad
-        )
+        return sum(p.numel() for p in self.parameters() if p.requires_grad)
 
 
 def build_model(sp):
-    pass
+    return Transformer(sp.get_piece_size(), sp.pad_id(), d_model=256, h=4, n_layers=3, d_ff=1024, dropout=0.1)

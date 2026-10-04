@@ -40,7 +40,8 @@ class MultiHeadAttention(nn.Module):
         k = k.transpose(1, 2) # (B, h, L, d_h)
         v = v.transpose(1, 2) # (B, h, L, d_h)
 
-        attn_out, _ = self.attn(q, k, v, mask) # (B, h, L, d_h)
+        attn_out, w = self.attn(q, k, v, mask) # (B, h, L, d_h)
+        self.weights = w.detach()
         attn_out = attn_out.transpose(1, 2).contiguous()   # (B, L, h, d_h)
         attn_out = attn_out.view(attn_out.size(0), attn_out.size(1), -1)  # (B, L, h * d_h)
         

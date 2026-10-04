@@ -47,7 +47,7 @@ def beam_search(model, src, beam_size=4, max_len=64):
                 beams.append((s, sc))
         if not beams:
             break
-    s = max(done + beams, key=lambda b: b[1] / len(b[0] - 1))[0]
+    s = max(done + beams, key=lambda b: b[1] / (len(b[0])-1))[0]
     return s[1:-1] if s[-1] == EOS_ID else s[1:]
  
 
