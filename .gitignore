@@ -8,3 +8,5 @@ spm_corpus.txt
 sql_sp.vocab
 checkpoints/*.pt
 !checkpoints/best_weights.pt
+checkpoints/
+.DS_Store

@@ -39,7 +39,7 @@ def run_official_evaluator(split, pred_path):
 
 
 def parse_failure_rate(pred_path):
-    pred = read_pairs(pred_path)
+    preds = read_pairs(pred_path)
     return 100 * sum('error' in p for p in preds) / len(preds)
 
 def cond_set(sql):
@@ -82,9 +82,9 @@ def find_error(q, gold):
 
 def plot_attention_map(model, sp, example, out_path):
     device = next(model.parameters()).device
-    src = torch.tensor([sp.encode(example['src'])] + [EOS_ID], device=device)
+    src = torch.tensor([sp.encode(example['src']) + [EOS_ID]], device=device)
     gen = greedy_decode(model, src)[0]
-    ys = torch.tensor([BOS_ID] + gen, device=device)
+    ys = torch.tensor([[BOS_ID] + gen], device=device)
     with torch.no_grad():
         model(src, ys)
     attn = model.decoder.layers[-1].cross_attention.weights[0].mean(0) # [T+1, S]
@@ -105,7 +105,7 @@ def plot_attention_map(model, sp, example, out_path):
 def write_samples(pred_path, out_path):
     examples, tables = load_split("dev")
     right, wrong = [], []
-    for ex, pred in zip(examples, read_jsonl(pred_path)):
+    for ex, pred in zip(examples, read_pairs(pred_path)):
         q = pred.get("query")
         error = find_error(q, ex["sql"])
         (right if error is None else wrong).append((ex, q, error))
@@ -146,7 +146,7 @@ def main():
     Path("results/table4.md").write_text(
         f"| Component | Accuracy (%) |\n|---|---|\n| sel column | {sel:.2f} |\n| agg | {agg:.2f} |\n| WHERE clause | {where:.2f} |\n")
 
-    plot_attention_map(model, sp, read_jsonl("starter/dev_pairs.jsonl")[0], "results/fig4_attention.png")
+    plot_attention_map(model, sp, read_pairs("starter/dev_pairs.jsonl")[0], "results/fig4_attention.png")
     write_samples(paths[best], "results/samples.md")
 
 if __name__ == "__main__":
