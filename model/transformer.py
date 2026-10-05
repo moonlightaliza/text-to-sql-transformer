@@ -53,13 +53,16 @@ class Transformer(nn.Module):
     # Starter InputLayers + Encoder + Decoder + output linear tied to the shared embedding.
     def __init__(self, vocab_size, pad_id, d_model, h, n_layers, d_ff, dropout=0.1):
         super(Transformer, self).__init__()
-        self.shared = TokenEmbedding(vocab_size, d_model)
+        self.shared = TokenEmbedding(vocab_size, d_model, pad_id)
         self.src_in = InputLayer(self.shared, d_model, dropout=dropout)
         self.tgt_in = InputLayer(self.shared, d_model, dropout=dropout)
         self.encoder = Encoder(n_layers, d_model, h, d_ff, dropout)
         self.decoder = Decoder(n_layers, d_model, h, d_ff, dropout)
         self.linear = nn.Linear(d_model, vocab_size)
         self.linear.weight = self.shared.emb.weight
+
+        nn.init.normal_(self.shared.emb.weight, mean=0.0, std=d_model ** -0.5)
+        nn.init.zeros_(self.shared.emb.weight[pad_id]) 
 
         
     def encode(self, src, src_mask):
